@@ -1,0 +1,83 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main  # 在 main 分支推送時觸發
+  pull_request:
+    branches:
+      - main  # 在向 main 分支發起 PR 時觸發
+
+jobs:
+  backend:
+    name: Backend CI/CD
+    runs-on: ubuntu-latest
+
+    steps:
+      # 檢查代碼
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 設置 Node.js 環境
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # 安裝依賴並運行測試
+      - name: Install and Test Backend
+        working-directory: ./backend
+        run: |
+          npm install
+          npm run build
+          npm test
+
+      # 構建 Backend Docker 映像
+      - name: Build Backend Docker Image
+        working-directory: ./backend
+        run: docker build -t my-backend:latest .
+
+      # 推送 Backend Docker 映像到 Docker Hub
+      - name: Push Backend Docker Image
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker tag my-backend:latest your-dockerhub-username/my-backend:latest
+      - run: docker push your-dockerhub-username/my-backend:latest
+
+  frontend:
+    name: Frontend CI/CD
+    runs-on: ubuntu-latest
+
+    steps:
+      # 檢查代碼
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 設置 Node.js 環境
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # 安裝依賴並運行測試
+      - name: Install and Build Frontend
+        working-directory: ./frontend
+        run: |
+          npm install
+          npm run build
+
+      # 構建 Frontend Docker 映像
+      - name: Build Frontend Docker Image
+        working-directory: ./frontend
+        run: docker build -t my-frontend:latest .
+
+      # 推送 Frontend Docker 映像到 Docker Hub
+      - name: Push Frontend Docker Image
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker tag my-frontend:latest your-dockerhub-username/my-frontend:latest
+      - run: docker push your-dockerhub-username/my-frontend:latest
