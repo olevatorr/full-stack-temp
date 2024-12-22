@@ -1,0 +1,28 @@
+# 使用 Node.js 作為基礎鏡像
+FROM node:18-alpine AS builder
+
+# 設定工作目錄
+WORKDIR /app
+
+# 複製依賴文件並安裝依賴
+COPY package*.json ./
+RUN npm install
+
+# 複製源碼並進行編譯
+COPY . .
+RUN npm run build
+
+# 使用 Nginx 作為運行時鏡像
+FROM nginx:alpine
+
+# 清理預設的 Nginx 靜態文件
+RUN rm -rf /usr/share/nginx/html/*
+
+# 從 builder 階段複製靜態文件到 Nginx 預設目錄
+COPY --from=builder /app/build /usr/share/nginx/html
+
+# 曝露應用埠
+EXPOSE 3000
+
+# 啟動 Nginx
+CMD ["nginx", "-g", "daemon off;"]
