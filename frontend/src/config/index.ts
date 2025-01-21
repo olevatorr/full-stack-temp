@@ -1,0 +1,1 @@
+export const POKE_API_URL = process.env.NEXT_PUBLIC_POKE_API_URL; 

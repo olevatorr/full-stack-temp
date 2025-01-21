@@ -1,6 +1,8 @@
 import { Card, CardHeader, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 interface ButtonProps {
     variant: string;
@@ -11,16 +13,25 @@ interface ButtonProps {
 interface ListCardProps {
     data: {
         title: string;
+        description: string;
         btn: ButtonProps;
     };
 }
 
 export default function ListCard({ data }: ListCardProps) {
-    console.log(data)
+    const router = useRouter();
+    
     return (
-        <Card>
+        <Card 
+            className={cn(
+                "cursor-pointer transition-colors hover:shadow-md transition-shadow duration-300",
+                "relative overflow-hidden"
+            )}
+            onClick={() => router.push(data.btn.url)}
+        >
             <CardHeader>
-                <h3>{data.title}</h3>
+                <h3 className='text-2xl font-bold'>{data.title}</h3>
+                <p className='text-sm text-gray-500'>{data.description}</p>
             </CardHeader>
             <CardFooter>
                 <Button asChild>

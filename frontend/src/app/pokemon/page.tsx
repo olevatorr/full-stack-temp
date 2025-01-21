@@ -1,7 +1,10 @@
 "use client";
 
+import { useEffect } from 'react';
 import MainBanner from '@components/common/banner/Main';
 import ListCard from '@components/card/List';
+import axios from 'axios';
+import { POKE_API_URL } from '@config/index';
 
 export default function Page() {
     const bannerImage = {
@@ -12,21 +15,19 @@ export default function Page() {
 
     const buttons = [
         {
-            title: 'Button / Badge',
-            description: 'all button and badge',
+            title: 'Card 1',
             btn: {
                 variant: 'default',
                 text: 'View',
-                url: '/ui-kit/button'
+                url: '/about'
             }
         },
         {
-            title: 'Card',
-            description: 'all card',
+            title: 'Card 1',
             btn: {
                 variant: 'default',
                 text: 'View',
-                url: '/ui-kit/card'
+                url: '/ui-kit'
             }
         }
     ];
@@ -38,8 +39,21 @@ export default function Page() {
         />
     ));
 
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${POKE_API_URL}/pokemon`);
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     return (
-        <div className="container">
+        <div className="container mx-auto">
             <MainBanner
                 image={bannerImage}
                 text="UI KIT List"

@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
     extend: {
+      container: {
+        center: true
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -50,6 +53,34 @@ export default {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))'
         }
+      },
+      fontSize: {
+        'dt/3xl': ['2rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'dt/2xl': ['1.5rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'dt/xl': ['1.25rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'dt/lg': ['1.125rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'dt/base': ['1rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'dt/sm': ['0.875rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'dt/xs': ['0.75rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'dt/btn': ['0.875rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'dt/caption': ['0.75rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'dt/display/1': ['7rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'dt/display/2': ['6rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'dt/body/1': ['1.125rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'dt/body/2': ['1rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+
+        // mobile
+        'mb/body/1': ['1.125rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'mb/body/2': ['1rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'mb/3xl': ['2rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'mb/2xl': ['1.5rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'mb/xl': ['1.25rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'mb/lg': ['1.125rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'mb/base': ['1rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'mb/sm': ['0.875rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'mb/xs': ['0.75rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'mb/btn': ['0.875rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'mb/caption': ['0.75rem', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }]
       },
       borderRadius: {
         lg: 'var(--radius)',
