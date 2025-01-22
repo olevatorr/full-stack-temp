@@ -1,0 +1,105 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import lenisInstance from '@/app/global';
+
+export default function Loading() {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    // 檢查是否是第一次訪問
+    // const hasVisited = localStorage.getItem('hasVisited');
+    // if (hasVisited) {
+    //   setIsFirstVisit(false);
+    //   setIsVisible(false);
+    //   return;
+    // }
+
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    const path = Array.from(svg.getElementsByTagName('path'));
+    const tl = gsap.timeline();
+
+    // 確保初始狀態
+    gsap.set(bgRef.current, {
+      opacity: 1
+    });
+
+    gsap.set(path, {
+      fill: 'none',
+      stroke: 'black',
+      strokeWidth: 1,
+      strokeDasharray: function (index, target) {
+        return target.getTotalLength();
+      },
+      strokeDashoffset: function (index, target) {
+        return target.getTotalLength();
+      }
+    });
+
+    // 停止滾動
+    document.body.style.overflow = 'hidden';
+    lenisInstance?.stop();
+
+    // 動畫序列
+    tl.to(path, {
+      strokeDashoffset: 0,
+      duration: 1.5,
+      ease: 'power2.inOut',
+      stagger: 0.1
+    })
+      .to(
+        path,
+        {
+          fill: 'black',
+          stroke: 'none',
+          duration: 0.5
+        },
+        '>-0.2'
+      )
+      .to(
+        bgRef.current,
+        {
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            lenisInstance?.start();
+            document.body.style.overflow = 'auto';
+            setTimeout(() => {
+              setIsVisible(false);
+            }, 100);
+          }
+        },
+        '>0.5'
+      );
+
+    return () => {
+      // 清理動畫
+      tl.kill();
+    };
+  }, []);
+
+  // 如果不是第一次訪問或動畫已完成，則不渲染組件
+  if (!isVisible) return null;
+
+  return (
+    <div
+      ref={bgRef}
+      className='pointer-events-none fixed left-0 top-0 z-[100] flex h-dvh w-screen items-center justify-center bg-white'
+    >
+      <svg
+        ref={svgRef}
+        viewBox='0 0 1000 500'
+        className='h-full w-[70%]'
+        xmlns='http://www.w3.org/2000/svg'
+      >
+        <path d='M53 277.4V200.6C53 180.2 63.2 170 83.6 170H130.4C150.8 170 161 180.2 161 200.6V277.4C161 297.8 150.8 308 130.4 308H83.6C63.2 308 53 297.8 53 277.4ZM69.8 279.2C69.8 288.267 74.3333 292.8 83.4 292.8H130.6C139.667 292.8 144.2 288.267 144.2 279.2V198.8C144.2 189.733 139.667 185.2 130.6 185.2H83.4C74.3333 185.2 69.8 189.733 69.8 198.8V279.2ZM200.239 279.6V160H216.239V281.2C216.239 290.4 220.906 295.267 230.239 295.8V309.6C210.239 309.6 200.239 299.6 200.239 279.6ZM259.392 278V234C259.392 214 269.392 204 289.392 204H315.392C335.392 204 345.392 214 345.392 234V262.2H275.392V280C275.392 289.333 280.059 294 289.392 294H341.392V302L333.392 308H289.392C269.392 308 259.392 298 259.392 278ZM275.392 249.2H329.392V232C329.392 222.667 324.726 218 315.392 218H289.392C280.059 218 275.392 222.667 275.392 232V249.2ZM371.836 206.8L373.636 204H387.436L417.836 294H421.836L452.236 204H466.036L467.836 206.8L432.836 308H406.836L371.836 206.8ZM518.389 308C498.256 308 488.189 297.933 488.189 277.8C488.189 257.667 498.256 247.6 518.389 247.6H554.989V232C554.989 222.667 550.322 218 540.989 218H498.189V210L506.189 204H540.989C560.989 204 570.989 214 570.989 234V308H518.389ZM504.189 280C504.189 289.333 508.856 294 518.189 294H554.989V260.6H518.189C508.856 260.6 504.189 265.267 504.189 274.6V280ZM609.388 278V170H625.388V204H663.388V218H625.388V280C625.388 289.333 630.054 294 639.388 294H665.388V302L657.388 308H639.388C619.388 308 609.388 298 609.388 278ZM694.908 278V234C694.908 214 704.908 204 724.908 204H752.908C772.908 204 782.908 214 782.908 234V278C782.908 298 772.908 308 752.908 308H724.908C704.908 308 694.908 298 694.908 278ZM710.908 280C710.908 289.333 715.574 294 724.908 294H752.908C762.241 294 766.908 289.333 766.908 280V232C766.908 222.667 762.241 218 752.908 218H724.908C715.574 218 710.908 222.667 710.908 232V280ZM820.505 308V216C825.171 208 833.838 204 846.505 204H866.505L874.505 210V218H848.705C843.105 218 839.038 219.533 836.505 222.6V308H820.505ZM902.919 308V216C907.585 208 916.252 204 928.919 204H948.919L956.919 210V218H931.119C925.519 218 921.452 219.533 918.919 222.6V308H902.919Z' />
+      </svg>
+    </div>
+  );
+}

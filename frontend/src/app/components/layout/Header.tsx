@@ -20,21 +20,21 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className='border-b'>
-      <div className='container flex h-16 items-center px-4 justify-between'>
+    <nav className='sticky top-0 z-50 border-b bg-white'>
+      <div className='lg:px-15 flex h-16 items-center justify-between px-5'>
         {/* Logo */}
-        <Link href="/" className="flex items-center">
+        <Link href='/' className='flex items-center'>
           <Image
-            src="/logo.webp"
-            alt="Logo"
-            width={40}
+            src='/logo-bk.svg'
+            alt='Logo'
+            width={100}
             height={40}
-            className="mr-2"
+            className=''
           />
         </Link>
 
         {/* Desktop Navigation */}
-        <div className='hidden md:flex gap-6'>
+        <div className='hidden gap-6 md:flex'>
           {navItems.map(item => (
             <Link href={item.href} key={item.href}>
               <Button variant={pathname === item.href ? 'default' : 'ghost'}>
@@ -47,23 +47,23 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <Button
-          variant="ghost"
-          className="md:hidden"
+          variant='ghost'
+          className='md:hidden'
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          <Menu className="h-6 w-6" />
+          <Menu className='h-6 w-6' />
         </Button>
       </div>
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1">
+        <div className='md:hidden'>
+          <div className='space-y-1 px-2 pb-3 pt-2'>
             {navItems.map(item => (
               <Link href={item.href} key={item.href}>
                 <Button
                   variant={pathname === item.href ? 'default' : 'ghost'}
-                  className="w-full justify-start"
+                  className='w-full justify-start'
                 >
                   <item.icon className='mr-2 h-4 w-4' />
                   {item.label}

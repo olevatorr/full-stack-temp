@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Header from './components/layout/Header';
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono } from 'next/font/google';
+import './global';
+import ClientLayout from './ClientLayout';
 
 const inter = JetBrains_Mono({
-  subsets: ["latin"],
-  display: "swap",
+  subsets: ['latin'],
+  display: 'swap'
 });
 
 export const metadata: Metadata = {
@@ -20,11 +21,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' className={inter.className}>
-      <body
-        className="antialiased"
-      >
-        <Header />
-        {children}
+      <body className='antialiased'>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
